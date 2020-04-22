@@ -16,6 +16,18 @@ public class AppExecuter {
     private final Executor mainIO;
     private final Executor networkIO;
 
+    public Executor getDiscIO() {
+        return discIO;
+    }
+
+    public Executor getMainIO() {
+        return mainIO;
+    }
+
+    public Executor getNetworkIO() {
+        return networkIO;
+    }
+
     public AppExecuter(Executor discIO, Executor mainIO, Executor networkIO) {
         this.discIO = discIO;
         this.mainIO = mainIO;

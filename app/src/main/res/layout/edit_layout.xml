@@ -7,7 +7,7 @@
     android:background="@drawable/background_edit_layout">
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/edPhoneNum"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -16,13 +16,13 @@
         android:hint="@string/phone_number"
         android:inputType="textPersonName"
         android:padding="10dp"
-        app:layout_constraintEnd_toEndOf="@+id/editText"
+        app:layout_constraintEnd_toEndOf="@+id/edName"
         app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="@+id/editText"
-        app:layout_constraintTop_toBottomOf="@+id/editText2" />
+        app:layout_constraintStart_toStartOf="@+id/edName"
+        app:layout_constraintTop_toBottomOf="@+id/edSecName" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/edName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
@@ -38,7 +38,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/edSecName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -47,13 +47,13 @@
         android:hint="@string/second_name"
         android:inputType="textPersonName"
         android:padding="10dp"
-        app:layout_constraintEnd_toEndOf="@+id/editText"
+        app:layout_constraintEnd_toEndOf="@+id/edName"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/editText"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        app:layout_constraintStart_toStartOf="@+id/edName"
+        app:layout_constraintTop_toBottomOf="@+id/edName" />
 
     <EditText
-        android:id="@+id/editText4"
+        android:id="@+id/tvDiscription"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="52dp"
@@ -64,46 +64,49 @@
         android:hint="@string/notes"
         android:inputType="textPersonName"
         android:padding="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/checkBox4"
-        app:layout_constraintEnd_toEndOf="@+id/editText"
-        app:layout_constraintStart_toStartOf="@+id/editText"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox2" />
+        app:layout_constraintBottom_toTopOf="@+id/checkBoxSpecial"
+        app:layout_constraintEnd_toEndOf="@+id/edName"
+        app:layout_constraintStart_toStartOf="@+id/edName"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxImportance_2" />
 
     <CheckBox
-        android:id="@+id/checkBox"
+        android:id="@+id/checkBoxImportance_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
+        android:onClick="onClickCheckBox1"
         android:text="@string/important"
         android:textColor="@color/colorRed"
-        app:layout_constraintBottom_toBottomOf="@+id/checkBox2"
-        app:layout_constraintEnd_toStartOf="@+id/checkBox2"
-        app:layout_constraintTop_toTopOf="@+id/checkBox2" />
+        app:layout_constraintBottom_toBottomOf="@+id/checkBoxImportance_2"
+        app:layout_constraintEnd_toStartOf="@+id/checkBoxImportance_2"
+        app:layout_constraintTop_toTopOf="@+id/checkBoxImportance_2" />
 
     <CheckBox
-        android:id="@+id/checkBox2"
+        android:id="@+id/checkBoxImportance_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="56dp"
+        android:onClick="onClickCheckBox2"
         android:text="@string/normal"
         android:textColor="@color/colorBlue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText3" />
+        app:layout_constraintTop_toBottomOf="@+id/edPhoneNum" />
 
     <CheckBox
-        android:id="@+id/checkBox3"
+        android:id="@+id/checkBoxImportance_3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:onClick="onClickCheckBox3"
         android:text="@string/no_important"
         android:textColor="@color/colorGreen"
-        app:layout_constraintBottom_toBottomOf="@+id/checkBox2"
-        app:layout_constraintStart_toEndOf="@+id/checkBox2"
-        app:layout_constraintTop_toTopOf="@+id/checkBox2" />
+        app:layout_constraintBottom_toBottomOf="@+id/checkBoxImportance_2"
+        app:layout_constraintStart_toEndOf="@+id/checkBoxImportance_2"
+        app:layout_constraintTop_toTopOf="@+id/checkBoxImportance_2" />
 
     <CheckBox
-        android:id="@+id/checkBox4"
+        android:id="@+id/checkBoxSpecial"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
@@ -112,4 +115,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButtonSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_save" />
 </androidx.constraintlayout.widget.ConstraintLayout>
