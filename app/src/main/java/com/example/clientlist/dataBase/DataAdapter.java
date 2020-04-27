@@ -3,6 +3,7 @@ package com.example.clientlist.dataBase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.clientlist.R;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolderData> {
     private List<Client> clientListArray;
+    private int[] imgColorArray = {R.drawable.circle_red,R.drawable.circle_green,R.drawable.circle_blue};
 
     public DataAdapter(List<Client> clientListArray) {
         this.clientListArray = clientListArray;
@@ -40,22 +42,27 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolderData
 
     public class ViewHolderData extends RecyclerView.ViewHolder {
         TextView tvName;
-        TextView tvImportance;
+        ImageView imgImportance;
+        ImageView imgSpecial;
         TextView tvSecondName;
         TextView tvPhoneNumber;
         public ViewHolderData(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvName);
-            tvImportance = itemView.findViewById(R.id.tvImportance);
+            imgImportance = itemView.findViewById(R.id.imageImportance);
+            imgSpecial = itemView.findViewById(R.id.imageSpecial);
             tvSecondName = itemView.findViewById(R.id.tvSecName);
             tvPhoneNumber = itemView.findViewById(R.id.tvPhone);
         }
 
         public void setData(Client client) {
             tvName.setText(client.getName());
-            tvImportance.setText(String.valueOf(client.getImportance()));
             tvSecondName.setText(client.getSecond_name());
             tvPhoneNumber.setText(client.getPhone_number());
+            imgImportance.setImageResource(imgColorArray[client.getImportance()]);
+            if (client.getSpecial() == 1){
+                imgSpecial.setVisibility(View.VISIBLE);
+            }
         }
     }
 }

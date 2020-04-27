@@ -37,8 +37,8 @@ public class AppExecuter {
     public static AppExecuter getInstance(){
         if(instanceExecutor==null){
             synchronized (LOCK){
-                instanceExecutor = new AppExecuter(Executors.newSingleThreadExecutor(),
-                        Executors.newFixedThreadPool(3),new MainThreadHandler());
+                instanceExecutor = new AppExecuter(Executors.newSingleThreadExecutor(),new MainThreadHandler(),
+                        Executors.newFixedThreadPool(3));
             }
         }
         return instanceExecutor;
