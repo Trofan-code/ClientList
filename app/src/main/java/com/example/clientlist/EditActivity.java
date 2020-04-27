@@ -79,7 +79,7 @@ public class EditActivity extends AppCompatActivity {
     }
     private void getImportanceFromCheckBox(){
         if (checkBoxImportance_1.isChecked()){
-            importance = 0;
+            importance = 1;
         } else if (checkBoxImportance_2.isChecked()){
             importance = 1;
         } if (checkBoxImportance_3.isChecked()){
