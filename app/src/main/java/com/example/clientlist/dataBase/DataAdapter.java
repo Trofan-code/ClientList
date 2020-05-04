@@ -16,17 +16,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolderData> {
     private List<Client> clientListArray;
+    private  AdapterOnItemClicked adapterOnItemClicked;
+
     private int[] imgColorArray = {R.drawable.circle_red,R.drawable.circle_green,R.drawable.circle_blue};
 
-    public DataAdapter(List<Client> clientListArray) {
+    public DataAdapter(List<Client> clientListArray, AdapterOnItemClicked adapterOnItemClicked) {
         this.clientListArray = clientListArray;
+        this.adapterOnItemClicked = adapterOnItemClicked;
     }
 
     @NonNull
     @Override
     public ViewHolderData onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout,parent,false);
-        return new ViewHolderData(view);
+        return new ViewHolderData(view,adapterOnItemClicked);
     }
 
     @Override
@@ -40,19 +43,22 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolderData
         return clientListArray.size();
     }
 
-    public class ViewHolderData extends RecyclerView.ViewHolder {
+    public class ViewHolderData extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView tvName;
         ImageView imgImportance;
         ImageView imgSpecial;
         TextView tvSecondName;
         TextView tvPhoneNumber;
-        public ViewHolderData(@NonNull View itemView) {
+        private  AdapterOnItemClicked adapterOnItemClicked;
+
+        public ViewHolderData(@NonNull View itemView, AdapterOnItemClicked adapterOnItemClicked) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvName);
             imgImportance = itemView.findViewById(R.id.imageImportance);
             imgSpecial = itemView.findViewById(R.id.imageSpecial);
             tvSecondName = itemView.findViewById(R.id.tvSecName);
             tvPhoneNumber = itemView.findViewById(R.id.tvPhone);
+            this.adapterOnItemClicked = adapterOnItemClicked;
         }
 
         public void setData(Client client) {
@@ -64,5 +70,13 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolderData
                 imgSpecial.setVisibility(View.VISIBLE);
             }
         }
+
+        @Override
+        public void onClick(View v) {
+            adapterOnItemClicked.onAdapterItemCliked();
+        }
+    }
+    public interface  AdapterOnItemClicked{
+        void onAdapterItemCliked(int position);
     }
 }

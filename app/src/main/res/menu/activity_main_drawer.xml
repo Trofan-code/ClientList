@@ -10,7 +10,7 @@
             android:title="@string/client" />
         <item
             android:id="@+id/id_special"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_special"
             android:title="@string/special" />
     </group>
 
@@ -18,15 +18,15 @@
         <menu>
             <item
                 android:id="@+id/id_important"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/ic_important"
                 android:title="@string/important" />
             <item
                 android:id="@+id/id_normal"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/ic_normal"
                 android:title="@string/normal" />
             <item
                 android:id="@+id/id_no_important"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/ic_no_important"
                 android:title="@string/no_important" />
         </menu>
     </item>
@@ -34,11 +34,11 @@
         <menu>
             <item
                 android:id="@+id/id_settings"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/ic_settings"
                 android:title="@string/general_settings" />
             <item
                 android:id="@+id/id_web"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/ic_web"
                 android:title="@string/web_page" />
 
         </menu>
