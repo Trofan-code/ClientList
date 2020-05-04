@@ -59,6 +59,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolderData
             tvSecondName = itemView.findViewById(R.id.tvSecName);
             tvPhoneNumber = itemView.findViewById(R.id.tvPhone);
             this.adapterOnItemClicked = adapterOnItemClicked;
+            itemView.setOnClickListener(this);
         }
 
         public void setData(Client client) {
@@ -73,7 +74,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolderData
 
         @Override
         public void onClick(View v) {
-            adapterOnItemClicked.onAdapterItemCliked();
+            adapterOnItemClicked.onAdapterItemCliked(getAdapterPosition());
         }
     }
     public interface  AdapterOnItemClicked{

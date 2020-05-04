@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private List<Client> listClient;
     private RecyclerView recyclerView;
     private DrawerLayout drawerLayout;
+    private  DataAdapter.AdapterOnItemClicked adapterOnItemClicked;
 
 
 
@@ -43,6 +44,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FloatingActionButton fab = findViewById(R.id.fab);
         NavigationView nav_view = findViewById(R.id.nav_view);
         drawerLayout = findViewById(R.id.drawer_layout);
+        adapterOnItemClicked = new DataAdapter.AdapterOnItemClicked() {
+            @Override
+            public void onAdapterItemCliked(int position) {
+                Toast.makeText(MainActivity.this,"eeeeeeeeeeeeeeeeeep"+ position,Toast.LENGTH_SHORT).show();
+
+
+            }
+        };
         nav_view.setNavigationItemSelectedListener(this);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                    AppExecuter.getInstance().getMainIO().execute(new Runnable() {
                        @Override
                        public void run() {
-                           adapter = new DataAdapter(listClient);
+                           adapter = new DataAdapter(listClient,adapterOnItemClicked);
                            recyclerView.setAdapter(adapter);
 
 
