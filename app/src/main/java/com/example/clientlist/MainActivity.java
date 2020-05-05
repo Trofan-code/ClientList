@@ -11,6 +11,7 @@ import com.example.clientlist.dataBase.AppDataBase;
 import com.example.clientlist.dataBase.AppExecuter;
 import com.example.clientlist.dataBase.Client;
 import com.example.clientlist.dataBase.DataAdapter;
+import com.example.clientlist.utils.Constans;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
@@ -47,9 +48,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         adapterOnItemClicked = new DataAdapter.AdapterOnItemClicked() {
             @Override
             public void onAdapterItemCliked(int position) {
-                Toast.makeText(MainActivity.this,"eeeeeeeeeeeeeeeeeep"+ position,Toast.LENGTH_SHORT).show();
-
-
+                Intent i = new Intent(MainActivity.this,EditActivity.class);
+                i.putExtra(Constans.NAME_KEY,listClient.get(position).getName());
+                i.putExtra(Constans.SECOND_NAME_KEY,listClient.get(position).getSecond_name());
+                i.putExtra(Constans.PHONE_NUMBER_KEY,listClient.get(position).getPhone_number());
+                i.putExtra(Constans.DESCRIPTION_KEY,listClient.get(position).getDescription());
+                i.putExtra(Constans.SPECIAL_KEY,listClient.get(position).getSpecial());
+                i.putExtra(Constans.ID_KEY,listClient.get(position).getId());
+                startActivity(i);
             }
         };
         nav_view.setNavigationItemSelectedListener(this);

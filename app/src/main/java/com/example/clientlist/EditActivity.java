@@ -1,5 +1,6 @@
 package com.example.clientlist;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.EditText;
 import com.example.clientlist.dataBase.AppDataBase;
 import com.example.clientlist.dataBase.AppExecuter;
 import com.example.clientlist.dataBase.Client;
+import com.example.clientlist.utils.Constans;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.annotation.Nullable;
@@ -20,6 +22,8 @@ public class EditActivity extends AppCompatActivity {
     private AppDataBase myDataBase;
     private int importance = 3;
     private int special = 0;
+    private FloatingActionButton fab;
+    private CheckBox[] checkBoxArray = new CheckBox[3];
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -27,7 +31,9 @@ public class EditActivity extends AppCompatActivity {
 
         setContentView(R.layout.edit_layout);
         init();
-        FloatingActionButton fab = findViewById(R.id.floatingActionButtonSave);
+        getMyIntent();
+
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,16 +56,20 @@ public class EditActivity extends AppCompatActivity {
         });
     }
     private void init(){
+        fab = findViewById(R.id.floatingActionButtonSave);
         myDataBase = AppDataBase.getInstance(getApplicationContext());
 
         edName = findViewById(R.id.edName);
         edSecondName = findViewById(R.id.edSecName);
         edPhoneNumber = findViewById(R.id.edPhoneNum);
-        edDiscription = findViewById(R.id.tvDiscription);
+        edDiscription = findViewById(R.id.tvDescription);
         checkBoxImportance_1 = findViewById(R.id.checkBoxImportance_1);
         checkBoxImportance_2 = findViewById(R.id.checkBoxImportance_2);
         checkBoxImportance_3 = findViewById(R.id.checkBoxImportance_3);
         checkBoxSpecial = findViewById(R.id.checkBoxSpecial);
+        checkBoxArray[0] = checkBoxImportance_1;
+        checkBoxArray[1] = checkBoxImportance_2;
+        checkBoxArray[2] = checkBoxImportance_3;
     }
 
     public void onClickCheckBox1 (View view){
@@ -88,6 +98,38 @@ public class EditActivity extends AppCompatActivity {
         if (checkBoxSpecial.isChecked()){
             special =1;
         }
+    }
+    private void getMyIntent(){
+        Intent i = getIntent();
+        if(i != null){
+            if(i.getStringExtra(Constans.NAME_KEY) != null){
+
+                fab.hide();
+                checkBoxImportance_1.setClickable(false);
+                checkBoxImportance_2.setClickable(false);
+                checkBoxImportance_3.setClickable(false);
+                checkBoxSpecial.setClickable(false);
+                edName.setClickable(false);
+                edName.setFocusable(false);
+                edSecondName.setClickable(false);
+                edSecondName.setFocusable(false);
+                edPhoneNumber.setClickable(false);
+                edPhoneNumber.setFocusable(false);
+                edDiscription.setClickable(false);
+                edDiscription.setFocusable(false);
+                edName.setText(i.getStringExtra(Constans.NAME_KEY));
+                edSecondName.setText(i.getStringExtra(Constans.SECOND_NAME_KEY));
+                edPhoneNumber.setText(i.getStringExtra(Constans.PHONE_NUMBER_KEY));
+                edDiscription.setText(i.getStringExtra(Constans.DESCRIPTION_KEY));
+                checkBoxArray[i.getIntExtra(Constans.IMPORTANCE_KEY,0)].setChecked(true);
+                if(i.getIntExtra(Constans.SPECIAL_KEY,0) == 1){
+                    checkBoxSpecial.setChecked(true);
+                }
+
+            }
+        }
+
+
     }
 
 
