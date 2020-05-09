@@ -17,7 +17,7 @@ public interface ClientDAO {
     @Insert
     void insertClient(Client client);
     @Update
-    void updetClient(Client client);
+    void updateClient(Client client);
     @Delete
     void deleteClient(Client client);
 }

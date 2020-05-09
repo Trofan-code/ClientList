@@ -2,7 +2,6 @@ package com.example.clientlist;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -15,6 +14,7 @@ import com.example.clientlist.utils.Constans;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout = findViewById(R.id.drawer_layout);
         adapterOnItemClicked = new DataAdapter.AdapterOnItemClicked() {
             @Override
-            public void onAdapterItemCliked(int position) {
+            public void onAdapterItemClicked(int position) {
                 Intent i = new Intent(MainActivity.this,EditActivity.class);
                 i.putExtra(Constans.NAME_KEY,listClient.get(position).getName());
                 i.putExtra(Constans.SECOND_NAME_KEY,listClient.get(position).getSecond_name());
@@ -70,32 +70,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
-        @Override
-        public boolean onCreateOptionsMenu (Menu menu){
-            // Inflate the menu; this adds items to the action bar if it is present.
-            getMenuInflater().inflate(R.menu.main, menu);
-            return true;
-        }
+
         private void init (){
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         myDb = AppDataBase.getInstance(getApplicationContext());
-            AppExecuter.getInstance().getDiscIO().execute(new Runnable() {
-                @Override
-                public void run() {
-                   listClient = myDb.clientDAO().getClientList();
-                   AppExecuter.getInstance().getMainIO().execute(new Runnable() {
-                       @Override
-                       public void run() {
-                           adapter = new DataAdapter(listClient,adapterOnItemClicked);
-                           recyclerView.setAdapter(adapter);
-
-
-                       }
-                   });
-                }
-            });
+        listClient = new ArrayList<>();
+            adapter = new DataAdapter(listClient,adapterOnItemClicked);
+            recyclerView.setAdapter(adapter);
         }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AppExecuter.getInstance().getDiscIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                listClient = myDb.clientDAO().getClientList();
+                AppExecuter.getInstance().getMainIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(adapter != null){
+
+                            adapter.updateAdapter(listClient);
+                        }
+
+                    }
+                });
+            }
+        });
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {

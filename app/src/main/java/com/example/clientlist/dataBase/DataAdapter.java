@@ -18,7 +18,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolderData
     private List<Client> clientListArray;
     private  AdapterOnItemClicked adapterOnItemClicked;
 
-    private int[] imgColorArray = {R.drawable.circle_red,R.drawable.circle_green,R.drawable.circle_blue};
+    private int[] imgColorArray = {R.drawable.circle_red,R.drawable.circle_blue,R.drawable.circle_green};
 
     public DataAdapter(List<Client> clientListArray, AdapterOnItemClicked adapterOnItemClicked) {
         this.clientListArray = clientListArray;
@@ -29,7 +29,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolderData
     @Override
     public ViewHolderData onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout,parent,false);
-        return new ViewHolderData(view,adapterOnItemClicked);
+        return new ViewHolderData(view, adapterOnItemClicked);
     }
 
     @Override
@@ -50,6 +50,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolderData
         TextView tvSecondName;
         TextView tvPhoneNumber;
         private  AdapterOnItemClicked adapterOnItemClicked;
+
 
         public ViewHolderData(@NonNull View itemView, AdapterOnItemClicked adapterOnItemClicked) {
             super(itemView);
@@ -74,10 +75,17 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolderData
 
         @Override
         public void onClick(View v) {
-            adapterOnItemClicked.onAdapterItemCliked(getAdapterPosition());
+            adapterOnItemClicked.onAdapterItemClicked(getAdapterPosition());
         }
     }
     public interface  AdapterOnItemClicked{
-        void onAdapterItemCliked(int position);
+        void onAdapterItemClicked(int position);
+    }
+    public void updateAdapter(List<Client> clientList){
+
+            clientListArray.clear();
+            clientListArray.addAll(clientList);
+            notifyDataSetChanged();
+
     }
 }

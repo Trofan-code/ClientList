@@ -25,6 +25,11 @@
     <string name="general_settings">Главные настройки</string>
     <string name="web_page">Web страница</string>
     <string name="edit">Редактировать</string>
+    <string name="delete">Удалить</string>
+
+    <string name="delete_message">Вы действительно хотите удалить клиента?</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
 
 
 
