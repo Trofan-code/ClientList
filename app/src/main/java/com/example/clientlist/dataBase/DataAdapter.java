@@ -1,5 +1,9 @@
 package com.example.clientlist.dataBase;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +21,16 @@ import androidx.recyclerview.widget.RecyclerView;
 public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolderData> {
     private List<Client> clientListArray;
     private  AdapterOnItemClicked adapterOnItemClicked;
+    private Context context;
+    private SharedPreferences def_pref;
 
     private int[] imgColorArray = {R.drawable.circle_red,R.drawable.circle_blue,R.drawable.circle_green};
 
-    public DataAdapter(List<Client> clientListArray, AdapterOnItemClicked adapterOnItemClicked) {
+    public DataAdapter(List<Client> clientListArray, AdapterOnItemClicked adapterOnItemClicked, Context context) {
         this.clientListArray = clientListArray;
         this.adapterOnItemClicked = adapterOnItemClicked;
+        this.context = context;
+        def_pref = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     @NonNull
@@ -64,12 +72,18 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolderData
         }
 
         public void setData(Client client) {
+            tvName.setTextColor(Color.parseColor(def_pref.getString(context.getResources()
+                            .getString(R.string.text_name_colors_key),"#000000")));
             tvName.setText(client.getName());
+            tvSecondName.setTextColor(Color.parseColor(def_pref.getString(context.getResources()
+                    .getString(R.string.text_surname_colors_key),"#000000")));
             tvSecondName.setText(client.getSecond_name());
             tvPhoneNumber.setText(client.getPhone_number());
             imgImportance.setImageResource(imgColorArray[client.getImportance()]);
             if (client.getSpecial() == 1){
                 imgSpecial.setVisibility(View.VISIBLE);
+            }else{
+                imgSpecial.setVisibility(View.GONE );
             }
         }
 

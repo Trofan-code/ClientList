@@ -26,6 +26,8 @@
     <string name="web_page">Web страница</string>
     <string name="edit">Редактировать</string>
     <string name="delete">Удалить</string>
+    <string name="search">Search</string>
+    <string name="search_tip">Поиск по имени</string>
 
     <string name="delete_message">Вы действительно хотите удалить клиента?</string>
     <string name="yes">Да</string>
@@ -35,8 +37,13 @@
     <string name="browser_link">https://pl.wikipedia.org/wiki/Wikipedia:Strona_g%C5%82%C3%B3wna</string>
 
     <string name="text_settings">Настройки текста</string>
-    <string name="text_colors">Цвет текста</string>
-    <string name="text_colors_summary">Выберите цвет текста</string>
+    <string name="text_colors_name">Цвет имени клиента</string>
+    <string name="text_colors_summary_name">Выберите цвет имени клиента</string>
+    <string name="text_colors_surname">Цвет фамилии клиента</string>
+    <string name="text_colors_summary_surname">Выберите цвет фамилии клиента</string>
+    <!-- KEYS -->
+    <string name="text_name_colors_key">text_name_color_key</string>
+    <string name="text_surname_colors_key">text_surname_color_key</string>
 
 
 

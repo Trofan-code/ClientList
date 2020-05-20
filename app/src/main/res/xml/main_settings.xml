@@ -5,11 +5,20 @@
     <PreferenceCategory android:title="@string/text_settings">
 
         <ListPreference
-            android:defaultValue="1"
+            android:defaultValue="#000000"
             android:entries="@array/text_color_array"
             android:entryValues="@array/text_color_array_values"
-            android:key="list_preference_1"
-            android:summary="@string/text_colors_summary"
-            android:title="@string/text_colors" />
+            android:icon="@drawable/ic_text_color"
+            android:key="@string/text_name_colors_key"
+            android:summary="@string/text_colors_summary_name"
+            android:title="@string/text_colors_name" />
+        <ListPreference
+            android:defaultValue="#000000"
+            android:entries="@array/text_color_array"
+            android:entryValues="@array/text_color_array_values"
+            android:icon="@drawable/ic_text_color"
+            android:key="@string/text_surname_colors_key"
+            android:summary="@string/text_colors_summary_surname"
+            android:title="@string/text_colors_surname" />
     </PreferenceCategory>
 </PreferenceScreen>

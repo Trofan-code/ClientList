@@ -1,16 +1,19 @@
 package com.example.clientlist;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.clientlist.dataBase.AppDataBase;
 import com.example.clientlist.dataBase.AppExecuter;
 import com.example.clientlist.dataBase.Client;
 import com.example.clientlist.dataBase.DataAdapter;
+import com.example.clientlist.settings.SettingsActivity;
 import com.example.clientlist.utils.Constans;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -19,7 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -33,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private RecyclerView recyclerView;
     private DrawerLayout drawerLayout;
     private  DataAdapter.AdapterOnItemClicked adapterOnItemClicked;
+
 
 
 
@@ -59,6 +65,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(i);
             }
         };
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
         nav_view.setNavigationItemSelectedListener(this);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         myDb = AppDataBase.getInstance(getApplicationContext());
         listClient = new ArrayList<>();
-        adapter = new DataAdapter(listClient,adapterOnItemClicked);
+        adapter = new DataAdapter(listClient,adapterOnItemClicked, this);
         recyclerView.setAdapter(adapter);
         }
 
@@ -103,18 +114,134 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_activity_menu,menu);
+        SearchManager searchManager = (SearchManager) this.getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        assert searchManager != null;
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(this.getComponentName()));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(final String newText) {
+                AppExecuter.getInstance().getDiscIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        listClient = myDb.clientDAO().getClientListName(newText);
+                        AppExecuter.getInstance().getMainIO().execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(adapter != null){
+                                    adapter.updateAdapter(listClient);
+                                }
+
+                            }
+                        });
+                    }
+                });
+                return true;
+            }
+        });
+        return true;
+    }
+
+    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if(id == R.id.id_client){
-            Toast.makeText(this,"CLIENT",Toast.LENGTH_SHORT).show();
+            super.onResume();
+            AppExecuter.getInstance().getDiscIO().execute(new Runnable() {
+                @Override
+                public void run() {
+                    listClient = myDb.clientDAO().getClientList();
+                    AppExecuter.getInstance().getMainIO().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(adapter != null){
+                                adapter.updateAdapter(listClient);
+                            }
+
+                        }
+                    });
+                }
+            });
         }
         else if(id == R.id.id_web){
             goTo(getString(R.string.browser_link));
-
+        }else if(id == R.id.id_settings){
+           Intent i = new Intent(MainActivity.this, SettingsActivity.class);
+           startActivity(i);
+        }else if(id == R.id.id_special){
+            AppExecuter.getInstance().getDiscIO().execute(new Runnable() {
+                @Override
+                public void run() {
+                    listClient = myDb.clientDAO().getClientListSpecial();
+                    AppExecuter.getInstance().getMainIO().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(adapter != null){
+                                adapter.updateAdapter(listClient);
+                            }
+                        }
+                    });
+                }
+            });
+        }else if(id == R.id.id_important){
+            AppExecuter.getInstance().getDiscIO().execute(new Runnable() {
+                @Override
+                public void run() {
+                    listClient = myDb.clientDAO().getClientListImportant(0);
+                    AppExecuter.getInstance().getMainIO().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(adapter != null){
+                                adapter.updateAdapter(listClient);
+                            }
+                        }
+                    });
+                }
+            });
+        }
+        else if(id == R.id.id_normal){
+            AppExecuter.getInstance().getDiscIO().execute(new Runnable() {
+                @Override
+                public void run() {
+                    listClient = myDb.clientDAO().getClientListImportant(1);
+                    AppExecuter.getInstance().getMainIO().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(adapter != null){
+                                adapter.updateAdapter(listClient);
+                            }
+                        }
+                    });
+                }
+            });
+        }else if(id == R.id.id_no_important){
+            AppExecuter.getInstance().getDiscIO().execute(new Runnable() {
+                @Override
+                public void run() {
+                    listClient = myDb.clientDAO().getClientListImportant(2);
+                    AppExecuter.getInstance().getMainIO().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(adapter != null){
+                                adapter.updateAdapter(listClient);
+                            }
+                        }
+                    });
+                }
+            });
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
     private void goTo(String url){
         Intent browserIntent;
         browserIntent = new Intent(Intent.ACTION_VIEW);

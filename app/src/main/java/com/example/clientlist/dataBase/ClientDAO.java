@@ -14,6 +14,12 @@ import androidx.room.Update;
 public interface ClientDAO {
     @Query("Select * from client_list")
     List<Client> getClientList();
+    @Query("Select * from client_list where special is 1")
+    List<Client> getClientListSpecial();
+    @Query("Select * from client_list where importance is :importance")
+    List<Client> getClientListImportant(int importance);
+    @Query("Select * from client_list where name Like '%' || :name || '%'")
+    List<Client> getClientListName(String name);
     @Insert
     void insertClient(Client client);
     @Update
