@@ -1,6 +1,7 @@
 package com.example.clientlist;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -76,12 +77,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         myDb = AppDataBase.getInstance(getApplicationContext());
         listClient = new ArrayList<>();
-            adapter = new DataAdapter(listClient,adapterOnItemClicked);
-            recyclerView.setAdapter(adapter);
+        adapter = new DataAdapter(listClient,adapterOnItemClicked);
+        recyclerView.setAdapter(adapter);
         }
 
     @Override
     protected void onResume() {
+        init();
         super.onResume();
         AppExecuter.getInstance().getDiscIO().execute(new Runnable() {
             @Override
@@ -91,7 +93,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     @Override
                     public void run() {
                         if(adapter != null){
-
                             adapter.updateAdapter(listClient);
                         }
 
@@ -107,8 +108,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(id == R.id.id_client){
             Toast.makeText(this,"CLIENT",Toast.LENGTH_SHORT).show();
         }
+        else if(id == R.id.id_web){
+            goTo(getString(R.string.browser_link));
+
+        }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+    private void goTo(String url){
+        Intent browserIntent;
+        browserIntent = new Intent(Intent.ACTION_VIEW);
+        browserIntent.setData(Uri.parse(url));
+        Intent chooser = Intent.createChooser(browserIntent,getString(R.string.browser_message));
+        if(browserIntent.resolveActivity(getPackageManager()) != null){
+            startActivity(chooser);
+        }
     }
 }
 
