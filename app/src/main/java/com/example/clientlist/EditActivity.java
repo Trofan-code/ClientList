@@ -71,6 +71,8 @@ public class EditActivity extends AppCompatActivity {
         });
     }
 
+
+
     private void init() {
         fab = findViewById(R.id.floatingActionButtonSave);
         myDataBase = AppDataBase.getInstance(getApplicationContext());
@@ -107,13 +109,17 @@ public class EditActivity extends AppCompatActivity {
             importance = 0;
         } else if (checkBoxImportance_2.isChecked()) {
             importance = 1;
-        }
-        if (checkBoxImportance_3.isChecked()) {
+        } else if (checkBoxImportance_3.isChecked()) {
             importance = 2;
         }
         if (checkBoxSpecial.isChecked()) {
             special = 1;
         }
+    }
+    private void notAllPress() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.not_all_press);
+        builder.setTitle("!!!!!!!");
     }
 
     private void getMyIntent() {
