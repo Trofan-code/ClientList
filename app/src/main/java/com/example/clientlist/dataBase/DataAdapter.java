@@ -24,7 +24,8 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolderData
     private Context context;
     private SharedPreferences def_pref;
 
-    private int[] imgColorArray = {R.drawable.circle_red,R.drawable.circle_blue,R.drawable.circle_green};
+    //private int[] imgColorArray = {R.drawable.circle_red,R.drawable.circle_blue,R.drawable.circle_green};
+    private int[] imgColorArray = {R.drawable.ic_important,R.drawable.ic_normal,R.drawable.ic_no_important}; //тут поменять круги на картинке,как в актикити мейн
 
     public DataAdapter(List<Client> clientListArray, AdapterOnItemClicked adapterOnItemClicked, Context context) {
         this.clientListArray = clientListArray;
@@ -36,7 +37,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolderData
     @NonNull
     @Override
     public ViewHolderData onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout_2,parent,false);
         return new ViewHolderData(view, adapterOnItemClicked);
     }
 
