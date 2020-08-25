@@ -10,6 +10,7 @@ import androidx.room.PrimaryKey;
 
 public class Client {
     @PrimaryKey (autoGenerate = true)
+    @Ignore
     private int id;
     @ColumnInfo (name = "name")
     private String name;
@@ -24,7 +25,6 @@ public class Client {
     @ColumnInfo (name = "special")
     private int special;
 
-
     public Client(int id, String name, String second_name, String phone_number, int importance, String description, int special) {
         this.id = id;
         this.name = name;
@@ -33,6 +33,7 @@ public class Client {
         this.importance = importance;
         this.description = description;
         this.special = special;
+
     }
     @Ignore
     public Client(String name, String second_name, String phone_number, int importance, String description, int special) {

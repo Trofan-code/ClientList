@@ -24,7 +24,7 @@ public class AppExecuter {
         return mainIO;
     }
 
-    public Executor getNetworkIO() {
+    public Executor getNetworkIO()  {
         return networkIO;
     }
 

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="120dp"
     android:layout_margin="5dp"
     android:background="@drawable/edit_background_2"
     android:padding="5dp">
@@ -62,10 +62,11 @@
         android:id="@+id/imageImportance"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginStart="44dp"
+        android:layout_marginStart="28dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.228"
         app:srcCompat="@drawable/circle_green" />
 
     <ImageView
@@ -77,4 +78,25 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_star"
         tools:layout_editor_absoluteY="24dp" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="152dp"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageImportance">
+
+        <ImageView
+            android:id="@+id/imageView_call"
+            android:layout_width="49dp"
+            android:layout_height="46dp"
+            android:background="@drawable/circle_green"
+            android:onClick="onClickPhoneCall"
+            app:srcCompat="@drawable/ic_btn_call"
+            tools:ignore="VectorDrawableCompat"
+            tools:layout_editor_absoluteX="23dp"
+            tools:layout_editor_absoluteY="16dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

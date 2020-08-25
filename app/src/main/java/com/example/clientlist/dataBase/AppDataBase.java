@@ -9,13 +9,15 @@ import androidx.room.RoomDatabase;
 @Database(entities = {Client.class},version = 1, exportSchema = false)
 public abstract class AppDataBase extends RoomDatabase {
     public static final Object LOCK = new Object();
-    public static final String DATABASE_NAME = "client_list_database";
+    public static final String DATABASE_NAME = "client_list_database"; //name db
     private static AppDataBase instanceDB;
+
 
 
     public static AppDataBase getInstance(Context context){
         if(instanceDB == null){
             synchronized (LOCK){
+
                 instanceDB = Room.databaseBuilder(context.getApplicationContext(),
                         AppDataBase.class,AppDataBase.DATABASE_NAME).build();
             }

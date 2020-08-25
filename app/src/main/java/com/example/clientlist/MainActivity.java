@@ -1,13 +1,20 @@
 package com.example.clientlist;
 
+import android.Manifest;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.clientlist.dataBase.AppDataBase;
 import com.example.clientlist.dataBase.AppExecuter;
@@ -26,6 +33,8 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -35,14 +44,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private AppDataBase myDb;
     private DataAdapter adapter;
     private List<Client> listClient;
+    private List<Client> phoneList;
     private RecyclerView recyclerView;
     private DrawerLayout drawerLayout;
-    private  DataAdapter.AdapterOnItemClicked adapterOnItemClicked;
+    private DataAdapter.AdapterOnItemClicked adapterOnItemClicked;
 
-
-
-
-
+    private ImageView imViewForCall;
+    private ImageButton btnForSms;
+    private TextView tvPhoneNumber;
+    private int i = 0;
+    private  String phone = " ";
+    private static final int REQUEST_CALL = 1;
+    public DataAdapter.ViewHolderData mViewHolderData;
+    public DataAdapter mDataAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,15 +70,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout = findViewById(R.id.drawer_layout);
         adapterOnItemClicked = new DataAdapter.AdapterOnItemClicked() {
             @Override
-            public void onAdapterItemClicked(int position) {
-                Intent i = new Intent(MainActivity.this,EditActivity.class);
-                i.putExtra(Constans.NAME_KEY,listClient.get(position).getName());
-                i.putExtra(Constans.SECOND_NAME_KEY,listClient.get(position).getSecond_name());
-                i.putExtra(Constans.PHONE_NUMBER_KEY,listClient.get(position).getPhone_number());
-                i.putExtra(Constans.DESCRIPTION_KEY,listClient.get(position).getDescription());
-                i.putExtra(Constans.SPECIAL_KEY,listClient.get(position).getSpecial());
-                i.putExtra(Constans.ID_KEY,listClient.get(position).getId());
+            public void onAdapterItemClicked(final int position) {
+                Intent i = new Intent(MainActivity.this, EditActivity.class);
+                i.putExtra(Constans.NAME_KEY, listClient.get(position).getName());
+                i.putExtra(Constans.SECOND_NAME_KEY, listClient.get(position).getSecond_name());
+                i.putExtra(Constans.PHONE_NUMBER_KEY, listClient.get(position).getPhone_number());
+                i.putExtra(Constans.DESCRIPTION_KEY, listClient.get(position).getDescription());
+                i.putExtra(Constans.SPECIAL_KEY, listClient.get(position).getSpecial());
+                i.putExtra(Constans.ID_KEY, listClient.get(position).getId());
                 startActivity(i);
+
             }
         };
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -76,21 +91,60 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this,EditActivity.class);
+                Intent i = new Intent(MainActivity.this, EditActivity.class);
                 startActivity(i);
-
-
             }
         });
     }
+    public void onClickPhoneCall(View view){
+        Intent t = new Intent();
 
 
-        private void init (){
+        final String[] f = new String[1];
+        String d = "000000";
+        AppExecuter.getInstance().getDiscIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                listClient = myDb.clientDAO().getClientList();
+                AppExecuter.getInstance().getMainIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(adapter != null){
+                           // adapter.ge;
+                        }
+                    }
+                });
+            }
+        });
+
+        Log.d("MyLog","getClientList 22  :    " + listClient);
+        Log.d("MyLog","getClientListFFF :    " + f[0]);
+        if (d.trim().length()>0) {
+            if (ContextCompat.checkSelfPermission(MainActivity.this,
+                    Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.CALL_PHONE},REQUEST_CALL);
+            }else {
+                String s = "tel:" + d;
+                Intent intent2 = new Intent(Intent.ACTION_CALL);
+                intent2.setData(Uri.parse(s));
+                startActivity(intent2);
+            }
+        } else {
+            Toast.makeText(MainActivity.this, "Number is empty", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    private void init (){
+
+        tvPhoneNumber = findViewById(R.id.tvPhone);
+        imViewForCall = findViewById(R.id.imageView_call);
+        //btnForCall = findViewById(R.id.imageButton_for_sms);
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         myDb = AppDataBase.getInstance(getApplicationContext());
         listClient = new ArrayList<>();
-        adapter = new DataAdapter(listClient,adapterOnItemClicked, this);
+        adapter = new DataAdapter(listClient,adapterOnItemClicked,this);
         recyclerView.setAdapter(adapter);
         }
 
@@ -108,7 +162,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         if(adapter != null){
                             adapter.updateAdapter(listClient);
                         }
-
                     }
                 });
             }

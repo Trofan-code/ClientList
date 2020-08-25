@@ -45,11 +45,11 @@ public class EditActivity extends AppCompatActivity {
                 getImportanceFromCheckBox();
                 if (!TextUtils.isEmpty(edName.getText().toString()) && !TextUtils.isEmpty(edSecondName.getText().toString())
                         && !TextUtils.isEmpty(edPhoneNumber.getText().toString()) && !TextUtils.isEmpty(edDiscription.getText().toString())) {
-
+//chek not null edit text
                     AppExecuter.getInstance().getDiscIO().execute(new Runnable() {
                         @Override
                         public void run() {
-                            if(isEdit){
+                            if(isEdit){ //fill to BD
                                 Client client = new Client(edName.getText().toString(), edSecondName.getText().toString(), edPhoneNumber.getText().toString(),
                                         importance, edDiscription.getText().toString(), special);
                                 client.setId(id);
